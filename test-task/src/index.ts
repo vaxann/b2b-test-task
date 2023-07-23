@@ -12,15 +12,12 @@ export const provider = new Web3.providers.WebsocketProvider(
   process.env.WEBSOCKET_PROVIDER || 'ws://localhost:8545'
 );
 const web3 = new Web3(provider);
-
 const contractConfig = JSON.parse(
   fs.readFileSync(process.env.CONTRACT_PATH || 'Token.json').toString()
 );
 const contractABI = contractConfig.abi;
-
 const contractAddress: string = process.env.CONTRACT_ADDRESS!;
 const account: string = process.env.ACCOUNT!;
-
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 // Express & Swagger config
@@ -42,7 +39,6 @@ const options = {
 const specs = swaggerJsdoc(options);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-
 
 // API Routes
 /**
@@ -121,7 +117,6 @@ app.post('/transfer', async (req: Request, res: Response) => {
 export const server = app.listen(3000, () =>
   console.log('Started on port 3000')
 );
-
 
 // Event listeners for Transfer events
 contract.events.Transfer().on('data', function (event) {
